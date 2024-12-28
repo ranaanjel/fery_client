@@ -1,0 +1,23 @@
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+th, td {
+    border-collapse: collapse;
+    border:1px solid #c1c1c3;
+    padding: 1rem;
+    text-align: left;
+}
+table {
+    border:1px solid #c1c1c3;
+    width:100%;
+}
+
+input:focus {
+    outline: none;
+   
+}
+input {
+     padding:4px 8px;
+}
