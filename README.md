@@ -1,5 +1,4 @@
 # to do 
-
 - [x] done
 - [ ]  not done
 
@@ -7,6 +6,8 @@ TO DO :
 - [ ] creating bill pdf 
   - [x] single client 
   - [x] multiple client not - required since bill is important and can't do it for granted.
+  - [ ] additional charges - service charges, delivery charges and other thing.
+  - [ ] download button working on - as csv as well pdf both.
 - [ ] Client
   - [x] CRUD 
   - [x] exporting the client DB 
@@ -24,5 +25,12 @@ TO DO :
   - [ ] updating the items as per the orders
   - [ ] price list associated with them as well. 
     - [ ] updating way
+
+  
+Mentioning of items where and then itemdb and inventory management
+Delivery check and out for delivery
+And customer number - marker to define
+Extra different item 
+katta and carton - unit
 
 - [ ] using the odoo and data saving

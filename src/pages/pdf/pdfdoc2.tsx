@@ -49,7 +49,7 @@ const BusinessName = "Fery Delivery\n"
 const logo = BusinessName[0];
 
 // Create Document Component
-export const MyItem = ({client, currentClient, totalPrice, items}: {client:React.MutableRefObject<string>,currentClient:any, totalPrice:React.MutableRefObject<number>, items:any}) => (
+export const MyItem = ({client, items}: {client:React.MutableRefObject<string>,currentClient:any, totalPrice:React.MutableRefObject<number>, items:any}) => (
   <Document pageLayout='twoPageLeft' pageMode='fullScreen'>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>

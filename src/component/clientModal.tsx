@@ -4,7 +4,7 @@ import { findClient, selectTheValue, inTheDB } from "../utils/utils";
 import { ClientData } from "../pages/client";
 import { ConfirmModal } from "./confirmModal";
 
-export function ClientModal({modelRef, setClientModal,originalInput} : {modelRef?: React.MutableRefObject<HTMLDivElement|null>, setClientModal:any, originalInput?:React.MutableRefObject<HTMLInputElement|null>}) {
+export function ClientModal({modelRef, setClientModal} : {modelRef?: React.MutableRefObject<HTMLDivElement|null>, setClientModal:any, originalInput?:React.MutableRefObject<HTMLInputElement|null>}) {
 
     const priRef = useRef<HTMLSelectElement | null>(null);
     const prefRef = useRef<HTMLSelectElement | null>(null);
@@ -183,7 +183,7 @@ export function ClientModal({modelRef, setClientModal,originalInput} : {modelRef
            <div className="flex flex-col justify-center items-center border rounded p-4 gap-2">
             <div className="flex flex-row w-[70%] items-center relative">
                 <label htmlFor="name" className="w-[25%]"> Client &nbsp; </label>
-                <input ref={clientInputRef} type="text" placeholder="client name" id="name" className="flex-1 bg-blue-950 text-white rounded" onChange={function (e) {
+                <input ref={clientInputRef} type="text" placeholder="client name" id="name" className="flex-1 bg-blue-950 text-white rounded" onChange={function () {
                     findClient(setClientList, clientInputRef)
                 }}/>
                 <div className="absolute w-[50%] top-[100%] left-[25%]" >

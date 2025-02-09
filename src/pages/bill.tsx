@@ -2,7 +2,7 @@
 
 import { PDFViewer } from "@react-pdf/renderer";
 import {  useRef, useState, ReactNode } from "react"
-import { MyDocument } from "./pdf/pdfDoc";
+import { DownloadLink, MyDocument } from "./pdf/pdfDoc";
 import { SelectElem , FunctionTiming} from "../component/select";
 import { findClient , selectTheValue} from "../utils/utils";
 
@@ -14,7 +14,6 @@ interface IClientdata {
     priority:string;
     timing:string;
 }
-
 export function Bill() {
 
     let timeRefInput = useRef<HTMLInputElement|null>(null)
@@ -36,14 +35,13 @@ export function Bill() {
 
 
 
-
 function ClientDesc({name, address, preferences, timing, priority}: {name:string, address:string, preferences:string, timing?:string, priority:string }) {
 
 
     const priRef = useRef<HTMLSelectElement| null>(null)
     const prefRef = useRef<HTMLSelectElement| null>(null)
   //  console.log(timing, " value is provided")
-    
+
     return <div className="pt-2 pb-2 font-san text-gray-50 bg-blue-800  flex flex-col items-start justify-between h-full px-4 w-[100%]">
         <div>Client : {name}</div>
         <div>Address & contact: <div>
@@ -81,7 +79,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
 
         var newData = listOfClient.data[stringVal as string];
 
-        setClientListData(m => {
+        setClientListData(() => {
             return newData;
         })
         //console.log(newData)
@@ -286,8 +284,8 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
 
     <GenericCard >  
         <div className="justify-end flex">
-        <button className=" p-2 border border-blue-700 bg-blue-950 text-white">Download as PDF</button>
-        <button className=" p-2 border border-blue-700 bg-blue-950 text-white">Download as CSV</button>
+        <DownloadLink clientInput={clientInputRef ? clientInputRef :""} />
+        <button className=" p-2 border border-blue-700 bg-blue-950 text-white" title="no functioning">Download as CSV</button>
         </div>
         <div className="h-[80vh]">
             <div className="border m-4 border-white h-[100%]">
@@ -297,7 +295,6 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
             </div>
         </div>
     </GenericCard>
-
     </div>
 }
 

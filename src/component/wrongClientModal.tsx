@@ -67,7 +67,7 @@ export function WrongModal({setWrongClient, wrongClient,  currentClient,setCurre
         setClientModal(!clientModal);
     }
 
-    return <div className="shade absolute items-center justify-center flex h-[100vh] left-0 top-0 w-[100vw] bg-opacity-35 bg-gray-700 flex">
+    return <div className="shade absolute items-center justify-center h-[100vh] left-0 top-0 w-[100vw] bg-opacity-35 bg-gray-700 flex">
         <div className="h-3/4 w-3/4 bg-white rounded  p-4 border-gray-600 ">
         
             <div className="flex justify-end mb-2">
@@ -105,7 +105,7 @@ export function WrongModal({setWrongClient, wrongClient,  currentClient,setCurre
              <div className="flex flex-col gap-4">
              <div>Current Client : <span className="text-yellow-500"> {clientValueAdd }</span></div>
               <div className="flex justify-between gap-2 relative">
-                <input ref={inputRef} type="text" placeholder="client name" id="name" className="flex-1 bg-black text-white rounded" onChange={function (e) {
+                <input ref={inputRef} type="text" placeholder="client name" id="name" className="flex-1 bg-black text-white rounded" onChange={function () {
                     findClient(setClientList, inputRef)
                 }}/>
                 <div className="absolute w-[65%] top-[100%] left-[0%]" >

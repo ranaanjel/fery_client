@@ -176,14 +176,14 @@ export function ClientList() {
 
 
 
-interface clientType {
-    name:string,
-    addPh:string,
-    preference:string | "mid";
-    priority:string;
-    timing:string;
-    phoneNo:string,
-}
+// interface clientType {
+//     name:string,
+//     addPh:string,
+//     preference:string | "mid";
+//     priority:string;
+//     timing:string;
+//     phoneNo:string,
+// }
 
 export class ClientData  {
     constructor(public name:string,public addPh:string, public preference?:string|"mid", public priority?:string|"mid", public timing?:string, public phoneNo?:string) {

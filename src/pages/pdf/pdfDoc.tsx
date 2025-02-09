@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
   },
   topLine: {
     borderTop : "8px #ff0000 solid",
-    borderTopColor :"red",
+    borderTopColor :"blue",
     margin:"20px 0"
   },
   bottomLine: {
     borderBottom : "20px #ff0000 solid",
-    borderBottomColor :"red",
+    borderBottomColor :"blue",
     margin:"10px auto",
     width:"97%"
   },
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontFamily:"Times-Bold"
   },
   logo:{
-    backgroundColor:"red",
+    backgroundColor:"blue",
     borderRadius: "0.2rem",
     padding:"4px 2px",
     color:"white",
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     display:"flex",
     flexDirection:"row",
     justifyContent:"space-between",
-    border:"1px red solid",
-    borderColor:"red",
+    border:"1px blue solid",
+    borderColor:"blue",
     borderRadius:"0.2rem",
     padding:"10px",
     backgroundColor:"#f1e1c5",
@@ -60,17 +60,16 @@ const styles = StyleSheet.create({
 });
 console.log(watermark)
 
-const BusinessName = "Vaibhav Enterprise\n"
-const Address = `89 , Block 1B , Nangloi Extension ,
-Nangloi , New , New Delhi New Delhi 
-110041 
-Phone: 9213031334`;
+const BusinessName = `Quikcrats service pvt ltd`;
+const Address = `\nNihal vihal \n`;
 const logo = BusinessName[0];
 const date = (new Date()).toString().split(" ").slice(0,4).join(" ");
 
 let paid = false;
 
 // Create Document Component
+
+
 export const MyDocument = ({currentClient, totalPrice, items}: {currentClient:any, totalPrice:React.MutableRefObject<number>, items:any}) => (
   <Document pageLayout='twoPageLeft' pageMode='fullScreen'>
     <Page size="A4" style={styles.page}>
@@ -154,4 +153,31 @@ function TableRow({index,name, quantity, unitPr, totalPr, style}:{index:string,n
         <View style={{width:"15%", textAlign:"right"}}><Text>{unitPr}</Text></View>
         <View style={{width:"20%", textAlign:"right"}}><Text>{totalPr}</Text></View>
     </View>
+}
+
+export function DownloadLink({clientInput}:{clientInput:any}) {
+  if(!clientInput.current) {
+    return ;
+  }
+
+
+  function createDate() {
+        let date ;
+        let month = String(Number((new Date()).getMonth()) + 1);
+        let year = String(Number((new Date()).getFullYear()) );
+        let day = String(Number((new Date()).getDate()) );
+        date = day+"-"+month+"-"+year;
+        let pdfDate = clientInput.current?.value + "_" + date +".pdf";
+         return pdfDate;
+     }
+
+  function gettingURL() {
+    const iframe = document.querySelector("iframe")?.src;
+    return iframe;
+  }
+  
+  
+  return <button ><a className=" p-[0.7rem] border border-blue-700 bg-blue-950 text-white" download={createDate()} href={gettingURL()} onClick={function () {
+            console.log("downloaded")
+        }}>Download as PDF</a></button>
 }

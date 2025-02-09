@@ -205,7 +205,7 @@ export function ItemList() {
 
         currentUserForPDF.current = client;
         
-         setItemArray((m) => {
+         setItemArray(() => {
             return dataToShow})
     }
     function pdfAll() {
