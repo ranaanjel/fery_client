@@ -5,6 +5,7 @@ import { Bill } from './pages/bill'
 import { ItemList } from './pages/itemList'
 import { ClientList } from './pages/client'
 import { ItemCategoriesList } from './pages/itemDB'
+import { CustomerOrderList } from './pages/customerOrder'
 
 //running the localstorage for the items and client
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/bill" element={<Bill/>} ></Route>
           <Route path="/item" element={<ItemList/>} ></Route>
           <Route path="/inventory" element={<ItemCategoriesList/>}></Route>
+          <Route path="/customer-order" element={<CustomerOrderList/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

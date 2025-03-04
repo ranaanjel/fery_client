@@ -31,3 +31,4 @@ export function inTheDB(name:string):boolean {
         var clientValue = JSON.parse(localStorage.getItem("client") as string).clientList;
         return clientValue.includes(name);
     }
+

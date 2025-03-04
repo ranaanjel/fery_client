@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   
 });
 
-const BusinessName = "Fery Delivery\n"
+const BusinessName = "Vaihav Enterprise\n"
 const logo = BusinessName[0];
 
 // Create Document Component
@@ -115,7 +115,6 @@ function EachClient({client,items, tally}:{client:string, items:any, tally:boole
 }
 
 function TableRow({index,name, quantity, category, room, style, tally}:{index:string,name:string,quantity:string, category:string, room:string, style:"bold"| "normal", tally:boolean }) {
-    
     let border = "";
     let fontV="";
     let bg = "";

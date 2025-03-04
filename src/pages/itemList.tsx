@@ -23,11 +23,11 @@ export function ItemList() {
     interface IlistItem{
         name:string,
         quantity:string,
-        category:string,
-        room:string
+        total:string,
+        price:string
     }
     const [itemArray, setItemArray] = useState<IlistItem[] | []>([]);
-    const totalRef = useRef<number>(0);
+    const [currentTotal, setCurrentTotal] = useState(0);
     const [currentClient, setCurrentClient] = useState<string[]| []>([]);
     // const currentClientItemsRef = useRef< Map<string, string[] | undefined>>(new Map());
     const currentClientItemsRef =  useRef<Record<string, IlistItem[]>>({});
@@ -38,30 +38,6 @@ export function ItemList() {
     const [updateWrongClient, setWrongClient] = useState(false);
     const [tallyTrue, setTallyTrue] = useState(false);
 
-// function ClientDesc({name, address, preferences, timing, priority}: {name:string, address:string, preferences:string, timing?:string, priority:string }) {
-
-//     const priRef = useRef<HTMLSelectElement| null>(null)
-//     const prefRef = useRef<HTMLSelectElement| null>(null)
-//   //  console.log(timing, " value is provided")
-
-//     return <div className="pt-2 pb-2 font-san text-gray-50 bg-blue-800  flex flex-col items-start justify-between h-full px-4 w-[100%]">
-//         <div>Client : {name}</div>
-//         <div>Address & contact: <div>
-//             {address}</div></div>
-//         <div>Preference: <br/>
-//             <SelectElem currentData={preferences} reference={prefRef} setClientListData={setClientListData}/>
-//         </div>
-//         <div>Priority: <br/>
-//            <SelectElem currentData={priority} reference={priRef}  setClientListData={setClientListData}/>
-//             </div> 
-//         <div>Timing: <br/>
-//             {timing}
-//             <FunctionTiming timeRefInput={timeRefInput} meridanRefSelect={meridanRefSelect} timing={timing}/>
-//         </div>
-//     </div>
-
-// }
-//functions
 
        //incremental search
     
@@ -115,7 +91,7 @@ export function ItemList() {
     function processTheText(input:string|undefined) {
         //map creating 
         let objectUnit:any = {
-            "kg":"kg", "gm":"gm", "g":"gm", "k":"kg", "kilo":"kg", "gram":"gm"
+            "kg":"kg", "gm":"gm", "g":"gm", "k":"katta", "kilo":"kg", "gram":"gm", "pcs":"pcs"
         };
         if(!input) {return};
         let clientName = input.split("\n")[0];
@@ -126,7 +102,7 @@ export function ItemList() {
             if( !clientInDataBase(clientName)) {
                 alert(clientName+" IS THE DATA add the client at top first")
             }else {
-                alert("please provide the data below the client as well. Eg : quantity unit item-name")
+                alert("please provide the data below the client as well. Eg : quantity unit item-name price-per-unit")
             }
             return;
         }
@@ -134,7 +110,6 @@ export function ItemList() {
         if(ItemList) {
             //format is quantity + unit + name - unit is optional
             //units are kg, gm , g , k , kilo, gram - quanity not provided then using the pkt for it.
-
            var value = ItemList.filter(words => {  
             if(words.trim() == "") {
                 return true;
@@ -148,7 +123,7 @@ export function ItemList() {
                 alert(quantity  + " wrong input -- provided in the text area | warning value @ "+ clientName )
                 return true;
             }
-           return false;
+            return false;
             });
 
             var returnValue = ItemList.map(words => {  
@@ -160,30 +135,32 @@ export function ItemList() {
 
             let unit ;
             let item ;
-            let category ;
-            let room;
+            let price:string;
+            let total:string;
 
             if(letters[1] in objectUnit) {
                 unit = objectUnit[letters[1]];
                 item = letters.slice(2,).join(' ');
-                category = "";
-                room =  "";
+
+                if(unit == "gm") {
+                    quantity = String((parseFloat(quantity)/1000).toFixed(2));
+                    unit = "kg"
+                }if(unit == "gm") {
+
+            }
+                price = letters[letters.length - 1];
+                total = String(Math.ceil(Number(quantity)*Number(price)));
+                
             }else {
                 unit = " pcs";
                 item = letters.slice(1,).join(' ');
-                category = "";
-                room =  "";
+               price = letters[letters. length - 1];
+                total = String(Number(quantity)*Number(price));
             }
-            
 
-            let newObject:IlistItem = {name: item, quantity:quantity + " "+ unit, category:category, room:room};
-           // console.log(newObject);
-            //@ts-ignore
-            //setItemArray(m => [...m, newObject])
-           // console.log(quantity + " - " + unit +" " , "\n item name :" + item + " \nprice value : "+ category)
+            let newObject:IlistItem = {name: item, quantity:quantity + " "+ unit, price:price, total:total};
            return newObject;
             });
-
 
         //i.e not added value
         if(warningDivRef.current && value.length > 0) {
@@ -199,15 +176,18 @@ export function ItemList() {
         //console.log(currentClientItemsRef.current[client], currentClientItemsRef.current);
         var currentListItem = currentClientItemsRef.current[client];
         console.log(currentListItem, client)
+        let currentTotal = 0;
         var dataToShow:IlistItem[] = currentListItem.map(m => {
-            return {name:m.name, quantity:m.quantity, category:m.category, room:m.room }
+            currentTotal += Number(m.total);
+            return {name:m.name, quantity:m.quantity, price:m.price, total:m.total }
         } )
 
         currentUserForPDF.current = client;
-        
+        setCurrentTotal(currentTotal);
          setItemArray(() => {
             return dataToShow})
     }
+
     function pdfAll() {
         var dataAll = currentClientItemsRef.current;
         // console.log(dataAll)
@@ -223,10 +203,8 @@ export function ItemList() {
     <div className='h-[85vh] flex justify-start gap-4'>
       <GenericCard>
         <h2 className="text-white text-2xl p-1">Item List</h2>
-       
         <div className="  flex justify-between m-2 overflow-hidden h-[95%] gap-4">
             <div className="flex flex-col gap-2 w-1/2">
-                {/* <ClientDesc name={clientListData.name} preferences={clientListData.preference} timing={clientListData.timing} address={clientListData.addPh} priority={clientListData.priority}></ClientDesc> */}
                 <div className="text-white bg-blue-900 border rounded border-gray-700 py-2 px-1 w-full h-1/2 overflow-scroll justify-center flex flex-wrap gap-2">
                         {
                             currentClient ? currentClient.map(m => {
@@ -247,12 +225,11 @@ export function ItemList() {
                 {/* //#TODO  i.e adding the ability to correct the value and provide good name to each after
                 // item database - having same name value */}
                 <div ref={warningDivRef}  className="text-white border bg-blue-900 rounded border-gray-700 py-2 px-1 w-full h-[30%] overflow-scroll">
-
                 </div>
             </div>
            <div className="w-1/2">
-             <div className="w-[100%] h-[90%] border" >
-                <textarea ref={textRef} placeholder="Provide the information eg : item quantity category" name="item" className="w-full resize-none focus:outline-none p-2 h-full">
+             <div className="w-[100%] h-[90%] border border-white text-white" >
+                <textarea ref={textRef} placeholder="Provide the information eg : item quantity category" name="item" className="w-full resize-none focus:outline-none p-2 h-full border-white">
                 </textarea>
             </div>
             <div className="flex justify-center gap-4 mt-2">
@@ -260,19 +237,18 @@ export function ItemList() {
             </div>
            </div>
         </div>
-        
       </GenericCard>
       <GenericCard>
-        <div className="h-[80vh] overflow-scroll border">
+        <div className="h-[80vh] overflow-scroll border border-white">
             <table className="table-auto border-collapse">
             <thead className="border-collapse border-slate-500 text-white ">
-                <th >Item Name</th>
-                <th >quantity</th>
-                <th >Category</th>
-                <th>Room No</th>
+                <th>Item Name</th>
+                <th>Quantity</th>  
+                <th>Price Per Unit</th>
+                <th>Total Price</th>
             </thead>
             {itemArray.map((m:IlistItem, index:number) => {
-                return <ItemTable key={index} name={m.name} quantity={m.quantity} category={m.category} room={m.room}/>
+                return <ItemTable key={index} name={m.name} quantity={m.quantity} price={m.price} total={m.total}/>
             })}
            
         </table>
@@ -287,7 +263,7 @@ export function ItemList() {
         <div className="h-[80vh]">
             <div className="border m-4 border-white h-[100%]">
            {!diffPDF?  <PDFViewer width={"100%"} height={"100%"}>
-                <MyItem client={currentUserForPDF} currentClient={clientListData} items={itemArray} totalPrice={totalRef}/>
+                <MyItem  currentTotal={currentTotal} client={currentUserForPDF}  items={itemArray}/>
             </PDFViewer> :  <PDFViewer width={"100%"} height={"100%"}>
                 <MyItem2 items={currentAllValuePDF} tallyValue={tallyTrue} />
             </PDFViewer>}
@@ -301,12 +277,12 @@ export function ItemList() {
 }
 
 
-function ItemTable({name, category, quantity, room}: {name:string, category:string, quantity:string, room:string}) {
+function ItemTable({name, price, quantity, total}: {name:string, price:string, quantity:string, total:string}) {
     return <tbody>
         <td>{name}</td>
         <td>{quantity}</td>
-        <td>{category}</td>
-        <td>{room}</td>
+        <td>{price}</td>
+        <td>{total}</td>
     </tbody>
 }
 

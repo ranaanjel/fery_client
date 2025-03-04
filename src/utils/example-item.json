@@ -1,0 +1,101 @@
+{
+    "item_name": {
+        "name": "",
+        "brand_name": "",
+        "category": "",
+        "description": "",
+        "standard_quantity_purchased": [
+            "",
+            ""
+        ],
+        "purchase_price": [
+            "",
+            ""
+        ],
+        "standard_quantity_selling": [
+            "",
+            "",
+            ""
+        ],
+        "selling_price": [
+            "",
+            "",
+            ""
+        ],
+        "unit": [
+            "pkt",
+            "kg"
+        ],
+        "stock": {
+            "pkt": "",
+            "kg": ""
+        },
+        "stock_threshold": {
+            "pkt": "",
+            "kg": ""
+        },
+        "last_update": [
+            {
+                "date": "",
+                "previous_values": {
+                    "purchase_price": [
+                        "",
+                        ""
+                    ],
+                    "selling_price": [
+                        "",
+                        "",
+                        ""
+                    ]
+                }
+            }
+        ],
+        "aliases": [
+            "",
+            ""
+        ],
+        "generic_name": [
+            "",
+            ""
+        ],
+        "in_house": "false || true",
+        "wastage": {
+            "last_recorded": {
+                "date": "",
+                "quantity": {
+                    "pkt": ""
+                },
+                "reason": "Damage during transport"
+            },
+            "history": [
+                {
+                    "date": "",
+                    "quantity": {
+                        "pkt": ""
+                    },
+                    "reason": "Expired stock"
+                }
+            ]
+        },
+        "expiration_date": {
+            "purchase_date": "",
+            "expiry_date": "",
+            "storage_instructions": "Store in a cool, dry place"
+        },
+        "bulk_price_trend": {
+            "last_3_purchases": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "price_fluctuation_threshold": 0.05,
+        "reorder_level": "",
+        "reorder_quantity": "",
+        "sales_velocity": ["fast moving", "slow moving", "moderate"],
+        "expiry_alerts": {
+            "yellow_alert": "",
+            "red_alert": ""
+        }
+    }
+}

@@ -15,7 +15,6 @@ interface IClientdata {
     timing:string;
 }
 export function Bill() {
-
     let timeRefInput = useRef<HTMLInputElement|null>(null)
     let meridanRefSelect = useRef<HTMLSelectElement|null>(null)
     const textRef = useRef<HTMLTextAreaElement | null>(null);
@@ -33,32 +32,29 @@ export function Bill() {
     const [itemArray, setItemArray] = useState<IlistItem[] | []>([]);
     const totalRef = useRef<number>(0);
 
+    function ClientDesc({name, address, preferences, timing, priority}: {name:string, address:string, preferences:string, timing?:string, priority:string }) {
 
+        const priRef = useRef<HTMLSelectElement| null>(null)
+        const prefRef = useRef<HTMLSelectElement| null>(null)
+    //  console.log(timing, " value is provided")
 
-function ClientDesc({name, address, preferences, timing, priority}: {name:string, address:string, preferences:string, timing?:string, priority:string }) {
-
-
-    const priRef = useRef<HTMLSelectElement| null>(null)
-    const prefRef = useRef<HTMLSelectElement| null>(null)
-  //  console.log(timing, " value is provided")
-
-    return <div className="pt-2 pb-2 font-san text-gray-50 bg-blue-800  flex flex-col items-start justify-between h-full px-4 w-[100%]">
-        <div>Client : {name}</div>
-        <div>Address & contact: <div>
-            {address}</div></div>
-        <div>Preference: <br/>
-            <SelectElem currentData={preferences} reference={prefRef} setClientListData={setClientListData}/>
+        return <div className="pt-2 pb-2 font-san text-gray-50 bg-blue-800  flex flex-col items-start justify-between h-full px-4 w-[100%]">
+            <div>Client : {name}</div>
+            <div>Address & contact: <div>
+                {address}</div></div>
+            <div>Preference: <br/>
+                <SelectElem currentData={preferences} reference={prefRef} setClientListData={setClientListData}/>
+            </div>
+            <div>Priority: <br/>
+            <SelectElem currentData={priority} reference={priRef} setClientListData={setClientListData} />
+                </div> 
+            <div>Timing: <br/>
+                {timing}
+                <FunctionTiming timeRefInput={timeRefInput} meridanRefSelect={meridanRefSelect} timing={timing}/>
+            </div>
         </div>
-        <div>Priority: <br/>
-           <SelectElem currentData={priority} reference={priRef} setClientListData={setClientListData} />
-            </div> 
-        <div>Timing: <br/>
-            {timing}
-            <FunctionTiming timeRefInput={timeRefInput} meridanRefSelect={meridanRefSelect} timing={timing}/>
-        </div>
-    </div>
 
-}
+    }
 //functions - utils
 
     function findDetails() {
@@ -112,14 +108,13 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
         }
         // console.log(textRef.current?.value)
         processTheText(textRef.current?.value);
-       // localStorage.setItem("client", JSON.stringify(listOfClient)); 
-        
+       // localStorage.setItem("client", JSON.stringify(listOfClient));
     }
 
     function processTheText(input:string|undefined) {
         //map creating 
         let objectUnit:any = {
-            "kg":"kg", "gm":"gm", "g":"gm", "k":"kg", "kilo":"kg", "gram":"gm"
+            "kg":"kg", "gm":"gm", "g":"gm", "k":"kg", "kilo":"kg", "gram":"gm", "katta":"bag", "carton":"carton", "box":"box", "pkt":"pkt", "pkts":"pkts", "pcs":"pcs", "pc":"pcs","bunch":"bunch", "dozen":"dozen"
         }
         if(!selectPriceRef.current) {
             return ;
@@ -127,6 +122,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
         let divisionMultiple = selectPriceRef.current.value.includes("unit") ? "unit" : "total";
         
         console.log(divisionMultiple, input)
+
 
         if(input) {
             //format is quantity + unit + name - unit is optional
@@ -136,7 +132,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
             if(words.trim() == "") {
                 return true;
             }
-            let letters = words.split(" ")
+            let letters = words.split(" ").filter(m => m)
 
             let quantity = letters[0];
             
@@ -154,7 +150,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
                 unit = objectUnit[letters[1]];
                 //console.log(letters[letters.length-1].match(/[\d.]/));
                 if(unit == "gm") {
-                    quantity = String(parseInt(quantity)/1000);
+                    quantity = String(parseFloat(quantity)/1000);
                     unit = "kg"
                 }
 
@@ -163,11 +159,11 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
                     if(divisionMultiple == "unit") {
 
                     price = letters[letters.length-1];
-                    total = String(parseInt(price)*parseFloat(quantity));
+                    total = Math.ceil(Number(String(parseFloat(price)*parseFloat(quantity)) ));
                     }else {
 
                     total = letters[letters.length-1];
-                    price = String(parseInt(total)/parseFloat(quantity));
+                    price = Math.ceil(Number(String(parseFloat(total)/parseFloat(quantity))));
                     }
 
                 }else {
@@ -182,11 +178,11 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
                     item = letters.slice(1,letters.length-1).join(' ');
                     if(divisionMultiple == "unit") {
                     price = letters[letters.length-1];
-                    total = String(parseInt(price)*parseInt(quantity));
+                    total = Math.ceil(Number(String(parseFloat(price)*parseFloat(quantity))));
                     }else {
                         
                     total = letters[letters.length-1];
-                    price = String(parseInt(total)/parseInt(quantity));
+                    price = Math.ceil(Number(String(parseFloat(total)/parseFloat(quantity))));
                     }
 
                 }else {
@@ -206,7 +202,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
 
         if(textRef.current) {
             textRef.current.value = value.join("\n")
-        }
+         }
         }
     }
 
@@ -215,7 +211,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
       <GenericCard> 
         <h2 className="text-white text-2xl">Client </h2>
         <div className="flex justify-between gap-2 relative">
-            <input type="text" placeholder="search client" title="Either find and add" className="p-2 w-[90%] focus:outline-none" ref={clientInputRef} onChange={function (){
+            <input type="text" placeholder="search client" title="Either find and add" className="p-2 w-[90%] focus:outline-none text-white border-white border rounded" ref={clientInputRef} onChange={function (){
                 findClient(setSearchClient, clientInputRef);
                 }} />
             <div className="absolute top-10 w-[89.5%]">
@@ -239,8 +235,8 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
             <div >
                 <ClientDesc name={clientListData.name} preferences={clientListData.preference} timing={clientListData.timing} address={clientListData.addPh} priority={clientListData.priority}></ClientDesc>
             </div>
-            <div className="min-w-[60%]  h-full border" >
-                <textarea ref={textRef} placeholder="Provide the information eg : item quantity price" name="item" className="w-full resize-none focus:outline-none p-2 h-full"></textarea>
+            <div className="min-w-[60%]  h-full border-white border" >
+                <textarea ref={textRef} placeholder="Provide the information eg : item quantity price" name="item" className="w-full resize-none focus:outline-none p-2 h-full scroll-smooth text-white"></textarea>
             </div>
         </div>
         <div className="flex justify-center gap-4">
@@ -252,7 +248,7 @@ function ClientDesc({name, address, preferences, timing, priority}: {name:string
         </div>
       </GenericCard>
       <GenericCard>
-        <div className="h-[80vh] overflow-scroll border">
+        <div className="h-[80vh] overflow-scroll text-white">
             <table className="table-auto border-collapse">
             <thead className="border-collapse border-slate-500 text-white ">
                 <th >Item Name</th>

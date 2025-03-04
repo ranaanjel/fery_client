@@ -106,7 +106,7 @@ export function ClientList() {
         document.body.removeChild(anchorTag);
     }
 
-    return <div className="flex flex-col p-4">
+    return <div className="flex flex-col p-4 bg-blue-800/80 rounded mx-16 py-16">
 
         <div className="flex justify-center items-center gap-4">
             {!uploaded ?  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-[30%] h-32 border-2 border-gray-300 border-dashed rounded cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 ">
@@ -129,7 +129,7 @@ export function ClientList() {
                     function() {
                         findClient(setClientList,inputRef)
                     }
-                } type="text" className="bg-blue-600 text-white texl-xl rounded focus:outline-none p-4" />
+                } type="text" className="bg-blue-600 text-white rounded focus:outline-none p-4 h-[30%]" />
 
                 <div className="absolute w-[50%] top-[62%]" >
                     {clientList.map((m,index) => {

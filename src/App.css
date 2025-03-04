@@ -1,7 +1,8 @@
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind utilities;
-@tailwind components;
+:root {
+    --background-image: url("assets/topography.svg");
+}
 
 th, td {
     border-collapse: collapse;
