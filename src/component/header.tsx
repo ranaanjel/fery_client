@@ -14,6 +14,7 @@ export function Header() {
             <Link className={linkClassName} to="/client">Client Info</Link>
             <Link className={linkClassName} to="/inventory">Inventory</Link>
             <Link className={linkClassName} to="/customer-order">Daily Customer Order</Link>
+            <Link className={linkClassName} to="/multipleBill">Generate Multiple Bill</Link>
         </nav>
       {/* <img src={logo} alt="logo" className="size-16"/> */}
     </div>

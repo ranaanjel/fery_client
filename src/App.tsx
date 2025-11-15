@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from './pages/layout'
 import { Bill } from './pages/bill'
+import { MultipleBill } from './pages/multipleBill'
 import { ItemList } from './pages/itemList'
 import { ClientList } from './pages/client'
 import { ItemCategoriesList } from './pages/itemDB'
@@ -23,6 +24,7 @@ function App() {
           <Route path="/item" element={<ItemList/>} ></Route>
           <Route path="/inventory" element={<ItemCategoriesList/>}></Route>
           <Route path="/customer-order" element={<CustomerOrderList/>}></Route>
+          <Route path="/multipleBill" element={<MultipleBill/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
