@@ -70,7 +70,7 @@ let paid = false;
 // Create Document Component
 
 
-export const MyDocument = ({currentClient, totalPrice, items}: {currentClient:any, totalPrice:React.MutableRefObject<number>, items:any}) => (
+export const MyDocument = ({currentClient, totalPrice, items, type}: {type?:"mul",currentClient:any, totalPrice:React.MutableRefObject<number>, items:any}) => (
   <Document pageLayout='twoPageLeft' pageMode='fullScreen'>
     <Page size="A4" style={styles.page}>
       <View style={styles.topLine}>
@@ -99,7 +99,7 @@ export const MyDocument = ({currentClient, totalPrice, items}: {currentClient:an
         </View>
         <View style={{fontSize:"0.8rem", display:'flex', flexDirection:"column", alignItems:"flex-end"}}>
             
-            <Text style={{fontFamily:"Helvetica", textTransform:"capitalize", fontSize:"0.8rem", color:"#4e4e4e"}}>Total Amount : <br/> <Text style={{color:"red", fontSize:"1.2rem"}}>{totalPrice.current ? totalPrice.current:"0"}</Text></Text>
+            <Text style={{fontFamily:"Helvetica", textTransform:"capitalize", fontSize:"0.8rem", color:"#4e4e4e"}}>Total Amount : <br/> <Text style={{color:"red", fontSize:"1.2rem"}}>{totalPrice.current ? totalPrice.current:"0" }</Text></Text>
             <Text style={{fontFamily:"Times-Bold",fontWeight:"extrabold"}}>{paid ? " Invoice paid ":" Invoice unpaid "}</Text>
         </View>
         <View style={{position:"absolute", width:"150px", height:"150px", zIndex:"1", top:"0", right:"100px"}}>
